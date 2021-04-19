@@ -1,0 +1,46 @@
+# Enable colors and change prompt:
+autoload -U colors && colors
+
+if [ "$HOME" = "/root" ]; then ucolor=red; umark=#; else umark=$; ucolor=green; fi
+if [ "$XDG_SESSION_TYPE" = "tty" ]; then arrow=">"; else arrow=; fi # arrow is a U+F054 char from nerd-fonts font
+#PS1="%B%{$fg[red]%}[%{$fg[yellow]%}%n%{$fg[green]%}@%{$fg[blue]%}%M %{$fg[magenta]%}%~%{$fg[red]%}]%{$reset_color%}$%b "
+PS1="%B %F{$ucolor}$umark%f %F{yellow}%~%f %F{red}$arrow%f%F{yellow}$arrow%f%F{blue}$arrow%f%b "
+PS2=" %F{$ucolor}$arrow%f "
+
+# History in cache directory:
+HISTSIZE=10000
+SAVEHIST=10000
+HISTFILE=~/.cache/zsh/history
+
+# Basic auto/tab complete:
+autoload -U compinit
+zstyle ':completion:*' menu select
+zmodload zsh/complist
+compinit
+_comp_options+=(globdots)		# Include hidden files.
+
+# Bindings
+bindkey "^A" beginning-of-line	# Ctrl+A
+bindkey "^E" end-of-line		# Ctrl+E
+bindkey "^U" backward-kill-line	# Ctrl+U
+bindkey ";5D" backward-word		# Ctrl+Left
+bindkey ";5C" forward-word		# Ctrl+Right
+
+# Use lf to switch directories and bind it to ctrl-o
+lfcd () {
+    tmp="$(mktemp)"
+    lf -last-dir-path="$tmp" "$@"
+    if [ -f "$tmp" ]; then
+        dir="$(cat "$tmp")"
+        rm -f "$tmp"
+        [ -d "$dir" ] && [ "$dir" != "$(pwd)" ] && cd "$dir"
+    fi
+}
+bindkey -s '^o' 'lfcd\n'
+
+[ -f "/home/sanya/.config/aliases" ] && source "/home/sanya/.config/aliases"
+
+# Load zsh-syntax-highlighting; should be last.
+source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh 2>/dev/null
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
