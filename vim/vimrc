@@ -45,6 +45,16 @@ nnoremap <leader>' mcviw<esc>a'<esc>bi'<esc>`cl
 vnoremap <leader>" mc<esc>`>a"<esc>`<i"<esc>`cl
 vnoremap <leader>' mc<esc>`>a'<esc>`<i'<esc>`cl
 
+"" automatically append closing chars
+inoremap ( ()<left>
+inoremap [ []<left>
+inoremap { {}<left>
+inoremap <expr> ) strpart(getline('.'), col('.')-1, 1) == ")" ? "\<right>" : ")"
+inoremap <expr> ] strpart(getline('.'), col('.')-1, 1) == "]" ? "\<right>" : "]"
+inoremap <expr> } strpart(getline('.'), col('.')-1, 1) == "}" ? "\<right>" : "}"
+inoremap <expr> " strpart(getline('.'), col('.')-1, 1) == "\"" ? "\<right>" : "\"\"\<left>"
+inoremap <expr> ' strpart(getline('.'), col('.')-1, 1) == "\'" ? "\<right>" : "\'\'\<left>"
+
 "" move current line up/down
 nnoremap <C-j> ddp
 nnoremap <C-k> ddkP
