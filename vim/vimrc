@@ -10,11 +10,9 @@ source /usr/share/vim/vim82/defaults.vim
 
 " Plugins ---------- {{{
 call plug#begin()
-Plug 'preservim/nerdtree'
 Plug 'vim-airline/vim-airline'
 call plug#end()
 " }}}
-
 " Basic settings ---------- {{{
 set clipboard=unnamedplus
 set tabstop=4
@@ -22,22 +20,13 @@ set shiftwidth=4
 set number
 set termguicolors
 set spelllang=en
+set timeoutlen=200
 " }}}
-
 " Mappings ---------- {{{
 let mapleader = "\<bs>"
 
 " leave insert mode with 'jk'
 inoremap jk <esc>
-
-" move to end/start
-nnoremap J G
-nnoremap K gg
-vnoremap J G
-vnoremap K gg
-
-"" switch word's case
-nnoremap <leader>u viw~e
 
 "" quote word/selection
 nnoremap <leader>" mcviw<esc>a"<esc>bi"<esc>`cl
@@ -45,19 +34,15 @@ nnoremap <leader>' mcviw<esc>a'<esc>bi'<esc>`cl
 vnoremap <leader>" mc<esc>`>a"<esc>`<i"<esc>`cl
 vnoremap <leader>' mc<esc>`>a'<esc>`<i'<esc>`cl
 
-"" automatically append closing chars
-inoremap ( ()<left>
-inoremap [ []<left>
-inoremap { {}<left>
-inoremap <expr> ) strpart(getline('.'), col('.')-1, 1) == ")" ? "\<right>" : ")"
-inoremap <expr> ] strpart(getline('.'), col('.')-1, 1) == "]" ? "\<right>" : "]"
-inoremap <expr> } strpart(getline('.'), col('.')-1, 1) == "}" ? "\<right>" : "}"
-inoremap <expr> " strpart(getline('.'), col('.')-1, 1) == "\"" ? "\<right>" : "\"\"\<left>"
-inoremap <expr> ' strpart(getline('.'), col('.')-1, 1) == "\'" ? "\<right>" : "\'\'\<left>"
+"" Scroll
+nnoremap <C-j> 2<C-e>
+nnoremap <C-k> 2<C-y>
 
-"" move current line up/down
-nnoremap <C-j> ddp
-nnoremap <C-k> ddkP
+"" Move in visual lines
+nnoremap j gj
+nnoremap k gk
+nnoremap 0 g0
+nnoremap $ g$
 
 "" split shortcuts
 noremap <C-Down> <C-W>j
@@ -69,12 +54,8 @@ noremap <C-S-Down> :res -5<CR>
 noremap <C-S-Right> :vertical resize +5<CR>
 noremap <C-S-Left> :vertical resize -5<CR>
 
-" pull up file browser
-noremap <C-n> :NERDTree .<CR>
-
 " theme control
-noremap <F5> :set background=light<CR>
-noremap <F6> :set background=dark<CR>
+noremap <expr> <F5> &background == "dark" ? ':set background=light<CR>':':set background=dark<CR>'
 
 " Toggle [relative] number
 noremap <leader>N :set number!<CR>
@@ -90,7 +71,6 @@ nnoremap <leader>h :set hlsearch!<CR>
 nnoremap <leader>ev :vsp $MYVIMRC<CR>
 nnoremap <leader>sv :source $MYVIMRC<CR>
 " }}}
-
 " Filetype-specific settings ---------- {{{
 augroup vim_filetype
 	autocmd!
@@ -102,24 +82,11 @@ func Eatchar(pat)
 	return (c =~ a:pat) ? '' : c
 endfunc
 
-augroup java_filetype
-	autocmd!
-	autocmd FileType java iabbrev <buffer> sop System.out.print();<left><left><C-R>=Eatchar('\s')<CR>
-	autocmd FileType java iabbrev <buffer> sopl System.out.println();<left><left><C-R>=Eatchar('\s')<CR>
-	autocmd FileType java iabbrev <buffer> mmain public static class Main {<CR>public static void main(String[] args) {<CR>}<CR>}<esc>kO
-augroup END
-
 augroup c_filetype
 	autocmd!
 	autocmd FileType c iabbrev <buffer> if if ()<left><C-R>=Eatchar('\s')<CR>
 augroup END
-
-augroup tex_filetype
-	autocmd!
-	autocmd BufWritePost *.tex :!cd $(dirname %) && xelatex $(basename %)
-augroup END
 " }}}
-
 " Theme ---------- {{{
 " Airline
 let g:airline_theme='zenburn'
