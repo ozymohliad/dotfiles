@@ -14,6 +14,7 @@ Plug 'vim-airline/vim-airline'
 call plug#end()
 " }}}
 " Basic settings ---------- {{{
+set nohlsearch
 set clipboard=unnamedplus
 set tabstop=4
 set shiftwidth=4
@@ -97,4 +98,7 @@ set background=light
 let g:gruvbox_contrast_dark='light'
 let g:gruvbox_contrast_light='hard'
 colorscheme gruvbox
+" }}}
+" Neovide ---------- {{{
+	set guifont=Hack:h15
 " }}}

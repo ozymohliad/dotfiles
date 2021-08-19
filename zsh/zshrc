@@ -2,8 +2,8 @@
 autoload -U colors && colors
 
 if [ "$HOME" = "/root" ]; then ucolor=red; umark=#; else umark=$; ucolor=green; fi
-if [ "$XDG_SESSION_TYPE" = "tty" ]; then arrow=">"; else arrow=; fi # arrow is a U+F054 char from nerd-fonts font
-#PS1="%B%{$fg[red]%}[%{$fg[yellow]%}%n%{$fg[green]%}@%{$fg[blue]%}%M %{$fg[magenta]%}%~%{$fg[red]%}]%{$reset_color%}$%b "
+if [ "$XDG_SESSION_TYPE" = "tty" ]; then arrow="❱"; else arrow=; fi # arrow is a U+F054 char from nerd-fonts font
+arrow=❱
 PS1="%B %F{$ucolor}$umark%f %F{yellow}%~%f %F{red}$arrow%f%F{yellow}$arrow%f%F{blue}$arrow%f%b "
 PS2=" %F{$ucolor}$arrow%f "
 
