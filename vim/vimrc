@@ -18,6 +18,7 @@ set nohlsearch
 set clipboard=unnamedplus
 set tabstop=4
 set shiftwidth=4
+set expandtab
 set number
 set termguicolors
 set spelllang=en
