@@ -1,20 +1,4 @@
-(set-face-attribute 'default nil :font "IBM Plex Mono" :height 110)
-
-(defun edit-config ()
-  "Open my config"
-  (interactive)
-  (find-file user-init-file))
-(global-set-key (kbd "C-c c") 'edit-config)
-
-(setq echo-keystrokes 0.1) ; decrease delay between keypress and echo
-(setq inhibit-startup-message t) ; start with a clean screen
-(scroll-bar-mode 0) ; disable scrollbar
-(tool-bar-mode 0) ; disable toolbar
-(tooltip-mode 0) ; disable tooltips
-(menu-bar-mode 0) ; disable menubar
-(load-theme 'wombat) ; color scheme
-(set-cursor-color "#aaaaaa") ; cursor color
-
+;; Set up package repositories
 (require 'package)
 (setq package-archives '(("melpa" . "https://melpa.org/packages/")
 			 ("org" . "https://orgmode.org/elpa/")
@@ -26,25 +10,36 @@
 (unless (package-installed-p 'use-package)
   (package-install 'use-package))
 
-(require 'smooth-scrolling)
-(require 'evil)
-(evil-mode 1)
 
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(package-selected-packages
-   '(lsp-ui lsp-java dirtree doom-modeline counsel evil restclient geiser-mit use-package smooth-scrolling smooth-scroll)))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- )
-(smooth-scrolling-mode t) ; scroll screen when cursor is nearits edge
+;; Edit config shortcut
+(defun edit-config ()
+  "Open my config"
+  (interactive)
+  (find-file user-init-file))
+(global-set-key (kbd "C-c c") 'edit-config)
 
+
+;; User interface preferences
+(set-face-attribute 'default nil :font "IBM Plex Mono" :height 110)
+(setq echo-keystrokes 0.1) ; decrease delay between keypress and echo
+(setq inhibit-startup-message t) ; start with a clean screen
+(scroll-bar-mode 0) ; disable scrollbar
+(tool-bar-mode 0) ; disable toolbar
+(tooltip-mode 0) ; disable tooltips
+(menu-bar-mode 0) ; disable menubar
+(load-theme 'wombat) ; color scheme
+(set-cursor-color "#aaaaaa") ; cursor color
+
+;; Answer yes-no questions with M-p M-n
+(mapcar (lambda (elt) (add-to-list 'yes-or-no-p-history elt)) '("no" "yes"))
+
+;; Custom modeline
+(use-package doom-modeline
+  :ensure t
+  :init (doom-modeline-mode 1))
+
+
+;; Set up ivy
 (use-package ivy
   :diminish ivy-mode
   :bind (("C-s" . swiper)
@@ -62,13 +57,45 @@
 	 ("C-d" . ivy-reverse-i-search-kill)))
 (ivy-mode 1)
 
-(use-package doom-modeline
+
+;; Enable smooth scrolling 
+(use-package smooth-scrolling
   :ensure t
-  :init (doom-modeline-mode 1))
+  :init (smooth-scrolling-mode 1))
 
-(require 'neotree)
-(global-set-key [f8] 'neotree-toggle)
 
+;; Enable vim emulation
+(use-package evil
+  :ensure t
+  :init (evil-mode 1))
+
+;; Completion
+(use-package company
+  :ensure t
+  :config
+  (progn (add-hook 'after-init-hook 'global-company-mode)))
+
+
+;; Java LSP
+(unless (package-installed-p 'lsp-java)
+  (package-install 'lsp-java))
+(unless (package-installed-p 'lsp-ui)
+  (package-install 'lsp-ui))
 (require 'lsp-java)
-(use-package lsp-ui)
+(require 'lsp-ui)
 (add-hook 'java-mode-hook #'lsp)
+
+
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(package-selected-packages
+   '(flycheck lsp-ui lsp-java dirtree counsel evil restclient geiser-mit use-package smooth-scroll)))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )
