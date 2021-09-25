@@ -11,23 +11,21 @@
   (package-install 'use-package))
 
 
-;; Edit config shortcut
-(defun edit-config ()
-  "Open my config"
-  (interactive)
-  (find-file user-init-file))
-(global-set-key (kbd "C-c c") 'edit-config)
+;; Color scheme
+(use-package gruvbox-theme
+  :ensure t
+  :init (load-theme 'gruvbox t))
 
 
 ;; User interface preferences
 (set-face-attribute 'default nil :font "IBM Plex Mono" :height 110)
 (setq echo-keystrokes 0.1) ; decrease delay between keypress and echo
 (setq inhibit-startup-message t) ; start with a clean screen
+(setq mouse-highlight nil) ; disable the hideous borders aroun ui element on hover
 (scroll-bar-mode 0) ; disable scrollbar
 (tool-bar-mode 0) ; disable toolbar
 (tooltip-mode 0) ; disable tooltips
 (menu-bar-mode 0) ; disable menubar
-(load-theme 'wombat) ; color scheme
 (set-cursor-color "#aaaaaa") ; cursor color
 
 ;; Answer yes-no questions with M-p M-n
@@ -67,7 +65,7 @@
 ;; Enable vim emulation
 (use-package evil
   :ensure t
-  :init (evil-mode 1))
+  :init (evil-mode t))
 
 ;; Completion
 (use-package company
@@ -86,11 +84,21 @@
 (add-hook 'java-mode-hook #'lsp)
 
 
+;; Edit config shortcut
+(defun edit-config ()
+  "Open my config"
+  (interactive)
+  (find-file user-init-file))
+(global-set-key (kbd "C-c c") 'edit-config)
+
+
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(custom-safe-themes
+   '("d14f3df28603e9517eb8fb7518b662d653b25b26e83bd8e129acea042b774298" default))
  '(package-selected-packages
    '(flycheck lsp-ui lsp-java dirtree counsel evil restclient geiser-mit use-package smooth-scroll)))
 (custom-set-faces
