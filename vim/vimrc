@@ -17,7 +17,6 @@ call plug#end()
 set nohlsearch
 set clipboard=unnamedplus
 set tabstop=4
-set expandtab
 set shiftwidth=4
 set expandtab
 set number
@@ -96,7 +95,7 @@ let g:airline_theme='zenburn'
 let g:airline_powerline_fonts = 1
 
 " Color scheme
-set background=dark
+set background=light
 let g:gruvbox_contrast_dark='light'
 let g:gruvbox_contrast_light='hard'
 colorscheme gruvbox
