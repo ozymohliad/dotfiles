@@ -24,5 +24,6 @@ iabbrev <buffer> bcode {\ttfamily}<Left>
 onoremap <buffer> iq :<C-u>normal! t'vT`<CR>
 onoremap <buffer> aq :<C-u>normal! f'llF'vF`hhf`<CR>
 
-vnoremap <buffer> <leader>b c\bold{}<esc>P
+vnoremap <buffer> <leader>b c{\bfseries }<esc>P
 vnoremap <buffer> <leader>e c\emph{}<esc>P
+vnoremap <buffer> <leader>q c\textquote{}<esc>P
