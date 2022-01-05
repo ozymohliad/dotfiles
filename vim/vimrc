@@ -11,6 +11,7 @@ source /usr/share/vim/vim82/defaults.vim
 " Plugins ---------- {{{
 call plug#begin()
 Plug 'vim-airline/vim-airline'
+Plug 'preservim/nerdtree'
 call plug#end()
 " }}}
 " Basic settings ---------- {{{
@@ -51,10 +52,10 @@ noremap <C-Down> <C-W>j
 noremap <C-Up> <C-W>k
 noremap <C-Left> <C-W>h
 noremap <C-Right> <C-W>l
-noremap <C-S-Up> :res +5<CR>
-noremap <C-S-Down> :res -5<CR>
-noremap <C-S-Right> :vertical resize +5<CR>
-noremap <C-S-Left> :vertical resize -5<CR>
+noremap <leader><Up> :res +5<CR>
+noremap <leader><Down> :res -5<CR>
+noremap <leader><Right> :vertical resize +5<CR>
+noremap <leader><Left> :vertical resize -5<CR>
 
 " theme control
 noremap <expr> <F5> &background == "dark" ? ':set background=light<CR>':':set background=dark<CR>'
@@ -62,6 +63,9 @@ noremap <expr> <F5> &background == "dark" ? ':set background=light<CR>':':set ba
 " Toggle [relative] number
 noremap <leader>N :set number!<CR>
 noremap <leader>n :set relativenumber!<CR>
+
+" NERDTree
+noremap <leader>f :NERDTree<CR>
 
 " Toggle spell
 nnoremap <leader>S :set spell!<CR>
