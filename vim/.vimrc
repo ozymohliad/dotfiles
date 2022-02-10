@@ -6,15 +6,18 @@
 " vim-gruvbox theme
 " powerline fonts
 
-source /usr/share/vim/vim82/defaults.vim
+" source /usr/share/vim/vim82/defaults.vim
+
 
 " Plugins ---------- {{{
-call plug#begin()
-Plug 'vim-airline/vim-airline'
-Plug 'preservim/nerdtree'
-call plug#end()
+" call plug#begin()
+" Plug 'vim-airline/vim-airline'
+" Plug 'preservim/nerdtree'
+" Plug 'dag/vim-fish'
+" call plug#end()
 " }}}
 " Basic settings ---------- {{{
+set runtimepath+=/usr/share/vim/vim81
 set nohlsearch
 set clipboard=unnamedplus
 set tabstop=4
@@ -24,6 +27,7 @@ set number
 set termguicolors
 set spelllang=en
 set timeoutlen=200
+set mouse=niv
 " }}}
 " Mappings ---------- {{{
 let mapleader = "\<bs>"
@@ -99,7 +103,7 @@ let g:airline_theme='zenburn'
 let g:airline_powerline_fonts = 1
 
 " Color scheme
-set background=light
+set background=dark
 let g:gruvbox_contrast_dark='light'
 let g:gruvbox_contrast_light='hard'
 colorscheme gruvbox
