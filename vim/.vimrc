@@ -41,6 +41,9 @@ nnoremap <leader>' mcviw<esc>a'<esc>bi'<esc>`cl
 vnoremap <leader>" mc<esc>`>a"<esc>`<i"<esc>`cl
 vnoremap <leader>' mc<esc>`>a'<esc>`<i'<esc>`cl
 
+"" Sort paragraph
+noremap <leader>s vip:sort<CR>
+
 "" Scroll
 nnoremap <C-j> 2<C-e>
 nnoremap <C-k> 2<C-y>
@@ -51,7 +54,7 @@ nnoremap k gk
 nnoremap 0 g0
 nnoremap $ g$
 
-"" split shortcuts
+"" Split shortcuts
 noremap <C-Down> <C-W>j
 noremap <C-Up> <C-W>k
 noremap <C-Left> <C-W>h
@@ -60,6 +63,10 @@ noremap <leader><Up> :res +5<CR>
 noremap <leader><Down> :res -5<CR>
 noremap <leader><Right> :vertical resize +5<CR>
 noremap <leader><Left> :vertical resize -5<CR>
+
+"" Buffer navigation
+noremap <leader>] :next<CR>
+noremap <leader>[ :prev<CR>
 
 " theme control
 noremap <expr> <F5> &background == "dark" ? ':set background=light<CR>':':set background=dark<CR>'
@@ -103,7 +110,14 @@ let g:airline_theme='zenburn'
 let g:airline_powerline_fonts = 1
 
 " Color scheme
-set background=dark
+if $THEME == "dark"
+    set background=dark
+end
+
+if $THEME == "light"
+    set background=light
+end
+
 let g:gruvbox_contrast_dark='light'
 let g:gruvbox_contrast_light='hard'
 colorscheme gruvbox
