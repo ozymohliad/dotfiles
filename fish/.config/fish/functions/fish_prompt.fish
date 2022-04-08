@@ -10,7 +10,6 @@ function fish_prompt
         echo -n (set_color red)'# '
     end
 
-    set arrow ❯
     set arrow 
     echo -n (set_color red)$arrow(set_color yellow)$arrow(set_color green)"$arrow "
     set_color normal
