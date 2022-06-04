@@ -55,14 +55,20 @@ nnoremap 0 g0
 nnoremap $ g$
 
 "" Split shortcuts
-noremap <C-Down> <C-W>j
-noremap <C-Up> <C-W>k
-noremap <C-Left> <C-W>h
-noremap <C-Right> <C-W>l
-noremap <leader><Up> :res +5<CR>
-noremap <leader><Down> :res -5<CR>
-noremap <leader><Right> :vertical resize +5<CR>
-noremap <leader><Left> :vertical resize -5<CR>
+noremap sj <C-W>j
+noremap sk <C-W>k
+noremap sh <C-W>h
+noremap sl <C-W>l
+noremap SK :res +5<CR>
+noremap SJ :res -5<CR>
+noremap SL :vertical resize +5<CR>
+noremap SH :vertical resize -5<CR>
+
+"" Tab shortcuts
+noremap tk :tabnext<CR>
+noremap tj :tabprev<CR>
+noremap tt :tabnew<space>
+noremap td :tabclose<CR>
 
 "" Buffer navigation
 noremap <leader>] :next<CR>
