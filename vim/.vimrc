@@ -21,13 +21,14 @@ set runtimepath+=/usr/share/vim/vim81
 set nohlsearch
 set clipboard=unnamedplus
 set tabstop=4
-set shiftwidth=4
+set shiftwidth=0
 set expandtab
 set number
 set termguicolors
 set spelllang=en
 set timeoutlen=200
 set mouse=niv
+set iskeyword+=-
 " }}}
 " Mappings ---------- {{{
 let mapleader = "\<bs>"
@@ -65,8 +66,8 @@ noremap SL :vertical resize +5<CR>
 noremap SH :vertical resize -5<CR>
 
 "" Tab shortcuts
-noremap tk :tabnext<CR>
-noremap tj :tabprev<CR>
+noremap tl :tabnext<CR>
+noremap th :tabprev<CR>
 noremap tt :tabnew<space>
 noremap td :tabclose<CR>
 
@@ -81,17 +82,17 @@ noremap <expr> <F5> &background == "dark" ? ':set background=light<CR>':':set ba
 noremap <leader>N :set number!<CR>
 noremap <leader>n :set relativenumber!<CR>
 
-" NERDTree
-noremap <leader>f :NERDTree<CR>
-
 " Toggle spell
 nnoremap <leader>S :set spell!<CR>
 
 " Toggle search highlighting
 nnoremap <leader>h :set hlsearch!<CR>
 
+" FZF
+nnoremap ff :FZF<CR>
+
 " Quick vimrc editing
-nnoremap <leader>ev :vsp $MYVIMRC<CR>
+nnoremap <leader>ev :tabnew $MYVIMRC<CR>
 nnoremap <leader>sv :source $MYVIMRC<CR>
 " }}}
 " Filetype-specific settings ---------- {{{
