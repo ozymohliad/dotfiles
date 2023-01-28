@@ -70,6 +70,9 @@ noremap tl :tabnext<CR>
 noremap th :tabprev<CR>
 noremap tt :tabnew<space>
 noremap td :tabclose<CR>
+noremap <C-t>h :tabm -1<CR>
+noremap <C-t>l :tabm +1<CR>
+noremap t] <c-w>]<c-w>T<CR> 
 
 "" Buffer navigation
 noremap <leader>] :next<CR>
@@ -90,6 +93,10 @@ nnoremap <leader>h :set hlsearch!<CR>
 
 " FZF
 nnoremap ff :FZF<CR>
+nnoremap fgf :GFiles<CR>
+nnoremap fsf :GFiles?<CR>
+nnoremap fbf :Buffers<CR>
+nnoremap faf :Ag<CR>
 
 " Quick vimrc editing
 nnoremap <leader>ev :tabnew $MYVIMRC<CR>
@@ -125,8 +132,8 @@ if $THEME == "light"
     set background=light
 end
 
-let g:gruvbox_contrast_dark='light'
-let g:gruvbox_contrast_light='hard'
+let g:gruvbox_contrast_dark='soft'
+let g:gruvbox_contrast_light='soft'
 colorscheme gruvbox
 " }}}
 " Neovide ---------- {{{
