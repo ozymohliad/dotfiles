@@ -1,13 +1,4 @@
-" Dependencies:
-" Plug
-" nerdtree 
-" vim-airline
-" vim-airline-themes
-" vim-gruvbox theme
-" powerline fonts
-
 " source /usr/share/vim/vim82/defaults.vim
-
 
 " Plugins ---------- {{{
 " call plug#begin()
@@ -17,17 +8,17 @@
 " call plug#end()
 " }}}
 " Basic settings ---------- {{{
-set runtimepath+=/usr/share/vim/vim81
+"set runtimepath+=/usr/share/vim/vim81
+"set termguicolors
+"set mouse=niv
 set nohlsearch
 set clipboard=unnamedplus
 set tabstop=4
 set shiftwidth=0
 set expandtab
 set number
-set termguicolors
 set spelllang=en
 set timeoutlen=200
-set mouse=niv
 set iskeyword+=-
 " }}}
 " Mappings ---------- {{{
@@ -107,16 +98,6 @@ augroup vim_filetype
 	autocmd!
 	autocmd FileType vim setlocal foldmethod=marker
 augroup END
-
-func Eatchar(pat)
-	let c = nr2char(getchar(0))
-	return (c =~ a:pat) ? '' : c
-endfunc
-
-augroup c_filetype
-	autocmd!
-	autocmd FileType c iabbrev <buffer> if if ()<left><C-R>=Eatchar('\s')<CR>
-augroup END
 " }}}
 " Theme ---------- {{{
 " Airline
@@ -135,7 +116,4 @@ end
 let g:gruvbox_contrast_dark='soft'
 let g:gruvbox_contrast_light='soft'
 colorscheme gruvbox
-" }}}
-" Neovide ---------- {{{
-	set guifont=Hack:h15
 " }}}
