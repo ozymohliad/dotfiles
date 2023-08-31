@@ -22,6 +22,8 @@ mapping.tab()
 mapping.diagnostics()
 mapping.toggles()
 
+vim.cmd([[command! W w | !cd $(dirname %) && test -f Makefile && make]])
+
 -- Plugins
 local lazypath = vim.fn.stdpath('data') .. '/lazy/lazy.nvim'
 if not vim.loop.fs_stat(lazypath) then

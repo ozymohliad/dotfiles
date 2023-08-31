@@ -1,15 +1,3 @@
-local servers = {
-    clangd = {},
-    pyright = {},
-    rust_analyzer = {},
-    lua_ls = {
-        Lua = {
-            workspace = { checkThirdParty = false },
-            telemetry = { enable = false },
-        },
-    },
-}
-
 return {
     {
         'williamboman/mason.nvim',
@@ -19,7 +7,24 @@ return {
     },
     {
         'williamboman/mason-lspconfig.nvim',
+        dependencies = {
+            'williamboman/mason.nvim',
+            'Hoffs/omnisharp-extended-lsp.nvim',
+        },
         config = function()
+            local servers = {
+                omnisharp = {},
+                pyright = {},
+                rust_analyzer = {},
+                lua_ls = {
+                    Lua = {
+                        workspace = { checkThirdParty = false },
+                        telemetry = { enable = false },
+                        runtime = { version = 'Lua 5.4' },
+                    },
+                },
+            }
+
             local mason_lspconfig = require('mason-lspconfig')
 
             mason_lspconfig.setup {
@@ -46,6 +51,7 @@ return {
         dependencies = {
             'williamboman/mason.nvim',
             'williamboman/mason-lspconfig.nvim',
+            'Hoffs/omnisharp-extended-lsp.nvim',
 
             { 'j-hui/fidget.nvim', opts = {} },
 
@@ -93,5 +99,5 @@ return {
                 },
             })
         end,
-    }
+    },
 }

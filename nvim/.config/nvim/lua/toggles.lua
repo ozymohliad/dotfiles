@@ -4,8 +4,10 @@ local function get_toggle_list_option(opt, val)
     return function()
         if Util.contains(vim.opt[opt]:get(), val) then
             vim.opt[opt]:remove(val)
+            print(("Removed '%s' from '%s'"):format(val, opt))
         else
             vim.opt[opt]:append(val)
+            print(("Added '%s' to '%s'"):format(val, opt))
         end
     end
 end
@@ -13,6 +15,7 @@ end
 local function get_toggle_boolean_option(opt)
     return function()
         vim.opt[opt] = not vim.opt[opt]:get()
+        print(("Option '%s' %s"):format(opt, vim.opt[opt]:get() and "enabled" or "disabled"))
     end
 end
 
@@ -22,6 +25,7 @@ local function get_toggle_string_option(opt, vals)
     return function()
         i = i % #vals + 1
         vim.opt[opt] = vals[i]
+        print(("Set '%s' to '%s'"):format(opt, vals[i]))
     end
 end
 
