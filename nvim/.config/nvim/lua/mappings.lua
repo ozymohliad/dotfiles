@@ -2,12 +2,19 @@ local Toggles = require("toggles")
 
 local M = {}
 
-function M.mapleader(str)
-    vim.g.mapleader = vim.api.nvim_replace_termcodes(str, false, false, true)
-end
-
 function M.jk_esc()
     vim.keymap.set('i', 'jk', '<ESC>');
+end
+
+function M.non_destructive_paste()
+    vim.keymap.set('v', 'p', '"_dP');
+end
+
+function M.center_after_jump()
+    vim.keymap.set('n', '<C-d>', '<C-d>zz');
+    vim.keymap.set('n', '<C-u>', '<C-u>zz');
+    vim.keymap.set('n', 'n', 'nzz');
+    vim.keymap.set('n', 'N', 'Nzz');
 end
 
 function M.scroll(speed)

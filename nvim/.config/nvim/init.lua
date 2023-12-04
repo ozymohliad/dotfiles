@@ -11,11 +11,15 @@ vim.o.smartcase = true
 vim.o.timeout = true
 vim.o.timeoutlen = 200
 vim.o.undofile = true
-vim.opt.expandtab = true;
-vim.opt.shiftwidth = 4;
+vim.opt.expandtab = true
+vim.opt.shiftwidth = 4
+vim.opt.cursorline = true
+vim.opt.scrolloff = 5
 
 -- Mappings
 local mapping = require("mappings")
+mapping.non_destructive_paste()
+mapping.center_after_jump()
 mapping.scroll(2)
 mapping.split()
 mapping.tab()

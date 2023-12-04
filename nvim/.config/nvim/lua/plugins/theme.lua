@@ -13,7 +13,7 @@ return {
     },
     {
         -- Set lualine as statusline
-        'nvim-lualine/lualine.nvim',
+        'ozymohliad/lualine.nvim',
         dependencies = { pluginName, },
         opts = {
             options = {
@@ -23,10 +23,11 @@ return {
                 section_separators = { left = '', right = '' },
             },
             sections = {
-                lualine_a = {
+                lualine_c = {
                     {
                         'filename',
                         path = 1,
+                        shorting_target = 80,
                     },
                 },
             },
@@ -35,9 +36,9 @@ return {
     {
         'lukas-reineke/indent-blankline.nvim',
         dependencies = { pluginName, },
+        main = "ibl",
         opts = {
-            char = '┊',
-            show_trailing_blankline_indent = false,
+            indent = { char = '┊', },
         },
     },
 }
