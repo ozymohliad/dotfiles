@@ -4,6 +4,7 @@ return {
         'nvim-treesitter/nvim-treesitter-textobjects',
         'nvim-treesitter/nvim-treesitter-refactor',
         'nvim-treesitter/playground',
+        'nvim-treesitter/nvim-treesitter-context',
     },
     config = function()
         pcall(require('nvim-treesitter.install').update { with_sync = true })
@@ -78,5 +79,15 @@ return {
                 },
             },
         }
+
+        require('treesitter-context').setup({
+            enable = true,
+            max_lines = 2,
+            min_window_height = 30,
+        })
+
+        vim.keymap.set("n", "[c", function()
+            require("treesitter-context").go_to_context()
+        end, { silent = true })
     end,
 }

@@ -100,5 +100,10 @@ function M.definition_highlight()
     vim.cmd("TSToggle refactor.highlight_definitions")
 end
 
+function M.context()
+    vim.cmd("TSContextToggle")
+end
+
+
 
 return M
