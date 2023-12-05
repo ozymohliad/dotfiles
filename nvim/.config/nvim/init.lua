@@ -15,6 +15,7 @@ vim.opt.expandtab = true
 vim.opt.shiftwidth = 4
 vim.opt.cursorline = true
 vim.opt.scrolloff = 5
+vim.opt.updatetime = 500
 
 -- Mappings
 local mapping = require("mappings")

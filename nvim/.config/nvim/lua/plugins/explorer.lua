@@ -11,8 +11,8 @@ return {
                     },
                     mappings = {
                         i = {
-                            ['<Up>'] = require("telescope.actions").preview_scrolling_up,
-                            ['<Down>'] = require("telescope.actions").preview_scrolling_down,
+                            ['<A-k>'] = require("telescope.actions").preview_scrolling_up,
+                            ['<A-j>'] = require("telescope.actions").preview_scrolling_down,
                             ["<C-j>"] = require("telescope.actions").move_selection_next,
                             ["<C-k>"] = require("telescope.actions").move_selection_previous,
                         },

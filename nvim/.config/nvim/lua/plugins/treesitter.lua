@@ -1,10 +1,25 @@
 return {
     'nvim-treesitter/nvim-treesitter',
-    dependencies = { 'nvim-treesitter/nvim-treesitter-textobjects', },
+    dependencies = {
+        'nvim-treesitter/nvim-treesitter-textobjects',
+        'nvim-treesitter/nvim-treesitter-refactor',
+        'nvim-treesitter/playground',
+    },
     config = function()
         pcall(require('nvim-treesitter.install').update { with_sync = true })
         require('nvim-treesitter.configs').setup {
-            ensure_installed = { 'c', 'cpp', 'java', 'lua', 'python', 'rust', 'vimdoc', 'vim', },
+            ensure_installed = {
+                'c',
+                'cpp',
+                'java',
+                'lua',
+                'python',
+                'rust',
+                'vimdoc',
+                'vim',
+                'query',
+                'sql',
+            },
             auto_install = false,
 
             highlight = { enable = true },
@@ -12,44 +27,44 @@ return {
             incremental_selection = {
                 enable = true,
                 keymaps = {
-                    init_selection = '<c-space>',
-                    node_incremental = '<c-space>',
-                    node_decremental = '<a-space>',
-                    scope_incremental = '<c-s>',
+                    init_selection = '<leader>v',
+                    node_incremental = 'gni',
+                    node_decremental = 'gnd',
+                    scope_incremental = 'gsi',
+                },
+            },
+            refactor = {
+                highlight_definitions = {
+                    enable = true,
+                    clear_on_cursor_move = true,
                 },
             },
             textobjects = {
                 select = {
                     enable = true,
-                    lookahead = true, -- Automatically jump forward to textobj, similar to targets.vim
+                    lookahead = true,
                     keymaps = {
-                        -- You can use the capture groups defined in textobjects.scm
                             ['aa'] = '@parameter.outer',
                             ['ia'] = '@parameter.inner',
                             ['af'] = '@function.outer',
                             ['if'] = '@function.inner',
-                            ['ac'] = '@class.outer',
-                            ['ic'] = '@class.inner',
                     },
+                    include_surrounding_whitespace = true,
                 },
                 move = {
                     enable = true,
                     set_jumps = true, -- whether to set jumps in the jumplist
                     goto_next_start = {
-                            [']m'] = '@function.outer',
-                            [']]'] = '@class.outer',
+                            [']f'] = '@function.outer',
                     },
                     goto_next_end = {
-                            [']M'] = '@function.outer',
-                            [']['] = '@class.outer',
+                            [']F'] = '@function.outer',
                     },
                     goto_previous_start = {
-                            ['[m'] = '@function.outer',
-                            ['[['] = '@class.outer',
+                            ['[f'] = '@function.outer',
                     },
                     goto_previous_end = {
-                            ['[M'] = '@function.outer',
-                            ['[]'] = '@class.outer',
+                            ['[F'] = '@function.outer',
                     },
                 },
                 swap = {

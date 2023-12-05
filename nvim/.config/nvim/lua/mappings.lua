@@ -66,6 +66,7 @@ function M.toggles()
     vim.keymap.set('n', '<leader>th', Toggles.hlsearch, { desc = "Toggle search [h]ighlighting" })
     vim.keymap.set('n', '<leader>ty', Toggles.highlight_yank, { desc = "Toggle [y]ank highlighting" })
     vim.keymap.set('n', '<leader>td', Toggles.diagnostics, { desc = "Toggle [d]iagnostics" })
+    vim.keymap.set('n', '<leader>tH', Toggles.definition_highlight, { desc = "Toggle definition [H]ighlighting" })
     vim.keymap.set('n', '<F5>', Toggles.background, { desc = "Toggle between dark/light theme" })
 end
 

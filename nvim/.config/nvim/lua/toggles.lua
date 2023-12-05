@@ -96,6 +96,9 @@ do
     end
 end
 
+function M.definition_highlight()
+    vim.cmd("TSToggle refactor.highlight_definitions")
+end
 
 
 return M
