@@ -5,6 +5,7 @@ return {
         'nvim-treesitter/nvim-treesitter-refactor',
         'nvim-treesitter/playground',
         'nvim-treesitter/nvim-treesitter-context',
+        'HiPhish/nvim-ts-rainbow2',
     },
     config = function()
         pcall(require('nvim-treesitter.install').update { with_sync = true })
@@ -57,15 +58,19 @@ return {
                     set_jumps = true, -- whether to set jumps in the jumplist
                     goto_next_start = {
                             [']f'] = '@function.outer',
+                            [']a'] = '@parameter.outer',
                     },
                     goto_next_end = {
                             [']F'] = '@function.outer',
+                            [']A'] = '@parameter.outer',
                     },
                     goto_previous_start = {
                             ['[f'] = '@function.outer',
+                            ['[a'] = '@parameter.outer',
                     },
                     goto_previous_end = {
                             ['[F'] = '@function.outer',
+                            ['[A'] = '@parameter.outer',
                     },
                 },
                 swap = {
@@ -78,6 +83,11 @@ return {
                     },
                 },
             },
+            rainbow = {
+                enable = true,
+                query = 'rainbow-parens',
+                strategy = require('ts-rainbow').strategy.global,
+            }
         }
 
         require('treesitter-context').setup({
