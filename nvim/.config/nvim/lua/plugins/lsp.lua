@@ -13,9 +13,17 @@ return {
         },
         config = function()
             local servers = {
+                texlab = {},
                 omnisharp = {},
                 pyright = {},
-                rust_analyzer = {},
+                rust_analyzer = {
+                    autostart = false,
+                    rustfmt = {
+                        rangeFormatting = {
+                            enable = true,
+                        }
+                    },
+                },
                 lua_ls = {
                     Lua = {
                         workspace = { checkThirdParty = false },
@@ -62,6 +70,9 @@ return {
                 end
             },
         },
+        config = function()
+            vim.keymap.set("n", "<leader>gq", vim.lsp.buf.format, { desc = "Format current buffer" })
+        end,
     },
     {
         'L3MON4D3/LuaSnip',
