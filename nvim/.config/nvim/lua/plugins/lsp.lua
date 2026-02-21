@@ -54,7 +54,7 @@ return {
             local capabilities = require('cmp_nvim_lsp').default_capabilities(vim.lsp.protocol.make_client_capabilities())
             for server, config in pairs(servers) do
                 config.capabilities = capabilities
-                config.on_attach = require("lsp").on_attach
+                config.on_attach = require("lsp_keymaps").on_attach
                 vim.lsp.config(server, config)
             end
         end,

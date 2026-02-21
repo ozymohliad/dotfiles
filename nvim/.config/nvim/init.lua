@@ -17,7 +17,7 @@ vim.opt.cursorline = true
 vim.opt.scrolloff = 5
 vim.opt.updatetime = 500
 vim.opt.list = true
-vim.opt.listchars = 'tab:<->,trail:-,nbsp:+,multispace:-,lead:\\x20'
+vim.opt.listchars = 'tab:<->,trail:!,nbsp:+,multispace:-,lead:\\x20'
 
 -- Mappings
 local mapping = require("mappings")

@@ -49,7 +49,7 @@ vim.api.nvim_create_autocmd('LspAttach', {
     pattern = "*.java",
     callback = function(_)
         vim.keymap.set('n', '<C-A-o>', require('jdtls').organize_imports)
-        require("lsp").on_attach(nil, 0)
+        require("lsp_keymaps").on_attach(nil, 0)
     end,
 })
 
