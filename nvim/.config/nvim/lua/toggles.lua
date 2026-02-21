@@ -89,9 +89,9 @@ do
     function M.diagnostics()
         diag_hidden = (diag_hidden + 1) % 2
         if diag_hidden == 1 then
-            vim.diagnostic.disable()
+            vim.diagnostic.enable(false)
         else
-            vim.diagnostic.enable()
+            vim.diagnostic.enable(true)
         end
     end
 end

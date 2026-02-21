@@ -61,6 +61,9 @@ return {
     },
     {
         'mfussenegger/nvim-jdtls',
+        dependencies = {
+            'nvim-dap',
+        },
     },
     {
         "folke/lazydev.nvim",

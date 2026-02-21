@@ -12,9 +12,14 @@ local data_root = vim.fn.fnamemodify("~/.cache/jdtls/workspaces/", ":p")
 local local_config_dir = vim.fn.fnamemodify("~/.cache/jdtls/config/", ":p")
 local project_data_path = data_root .. project_root
 
+-- requires java-debug from AUR
+local debug_bundle = vim.fn.glob("/usr/share/java-debug/com.microsoft.java.debug.plugin.jar", 1)
+
 os.execute(("mkdir -p '%s'"):format(project_data_path))
 os.execute(("mkdir -p '%s'"):format(local_config_dir))
 os.execute(("ln -sf '%s' '%s'"):format(jdtls_config, local_config_dir))
+
+require('dap')
 
 require('jdtls').start_or_attach({
     cmd = {
@@ -41,7 +46,7 @@ require('jdtls').start_or_attach({
         }
     },
     init_options = {
-        bundles = {}
+        bundles = { debug_bundle, }
     },
 })
 
