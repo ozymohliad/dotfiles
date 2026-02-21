@@ -1,3 +1,45 @@
+local function map_select_textobject(keys, textobject)
+    vim.keymap.set({ "x", "o" }, keys, function()
+        require "nvim-treesitter-textobjects.select".select_textobject(textobject, "textobjects")
+    end)
+end
+
+local function map_swap_next_textobject(keys, textobject)
+    vim.keymap.set("n", keys, function()
+        require("nvim-treesitter-textobjects.swap").swap_next(textobject)
+    end)
+end
+
+local function map_swap_prev_textobject(keys, textobject)
+    vim.keymap.set("n", keys, function()
+        require("nvim-treesitter-textobjects.swap").swap_previous(textobject)
+    end)
+end
+
+local function map_goto_next_start_textobject(keys, textobject)
+    vim.keymap.set({ "n", "x", "o" }, keys, function()
+        require("nvim-treesitter-textobjects.move").goto_next_start(textobject, "textobjects")
+    end)
+end
+
+local function map_goto_prev_start_textobject(keys, textobject)
+    vim.keymap.set({ "n", "x", "o" }, keys, function()
+        require("nvim-treesitter-textobjects.move").goto_previous_start(textobject, "textobjects")
+    end)
+end
+
+local function map_goto_next_end_textobject(keys, textobject)
+    vim.keymap.set({ "n", "x", "o" }, keys, function()
+        require("nvim-treesitter-textobjects.move").goto_next_end(textobject, "textobjects")
+    end)
+end
+
+local function map_goto_prev_end_textobject(keys, textobject)
+    vim.keymap.set({ "n", "x", "o" }, keys, function()
+        require("nvim-treesitter-textobjects.move").goto_previous_end(textobject, "textobjects")
+    end)
+end
+
 return {
     {
         'nvim-treesitter/nvim-treesitter',
@@ -46,46 +88,40 @@ return {
 
             require("nvim-treesitter-textobjects").setup {
                 select = {
-                    enable = true,
                     lookahead = true,
-                    keymaps = {
-                        ['aa'] = '@parameter.outer',
-                        ['ia'] = '@parameter.inner',
-                        ['af'] = '@function.outer',
-                        ['if'] = '@function.inner',
+                    selection_modes = {
+                        -- 'v' charwise
+                        -- 'V' linewise
+                        -- '<c-v>' blockwise
+                        ['@function.inner'] = 'v',
                     },
-                    include_surrounding_whitespace = true,
+                    include_surrounding_whitespace = function(arg)
+                        -- arg.query_string
+                        -- arg.selection_mode
+                        return arg.query_string ~= '@function.inner'
+                    end,
                 },
                 move = {
-                    enable = true,
                     set_jumps = true, -- whether to set jumps in the jumplist
-                    goto_next_start = {
-                        [']f'] = '@function.outer',
-                        [']a'] = '@parameter.outer',
-                    },
-                    goto_next_end = {
-                        [']F'] = '@function.outer',
-                        [']A'] = '@parameter.outer',
-                    },
-                    goto_previous_start = {
-                        ['[f'] = '@function.outer',
-                        ['[a'] = '@parameter.outer',
-                    },
-                    goto_previous_end = {
-                        ['[F'] = '@function.outer',
-                        ['[A'] = '@parameter.outer',
-                    },
-                },
-                swap = {
-                    enable = true,
-                    swap_next = {
-                        ['<leader>a'] = '@parameter.inner',
-                    },
-                    swap_previous = {
-                        ['<leader>A'] = '@parameter.inner',
-                    },
                 },
             }
+
+            map_select_textobject("af", "@function.outer")
+            map_select_textobject("if", "@function.inner")
+            map_select_textobject("aa", "@parameter.outer")
+            map_select_textobject("ia", "@parameter.inner")
+
+            map_swap_next_textobject("<leader>al", "@parameter.inner")
+            map_swap_prev_textobject("<leader>ah", "@parameter.inner")
+
+            map_goto_next_start_textobject("]a", "@parameter.inner")
+            map_goto_next_end_textobject("]A", "@parameter.inner")
+            map_goto_prev_start_textobject("[a", "@parameter.inner")
+            map_goto_prev_end_textobject("[A", "@parameter.inner")
+            map_goto_next_start_textobject("]f", "@function.inner")
+            map_goto_next_end_textobject("]F", "@function.inner")
+            map_goto_prev_start_textobject("[f", "@function.inner")
+            map_goto_prev_end_textobject("[F", "@function.inner")
 
             require('rainbow-delimiters.setup').setup({
                 strategy = {
