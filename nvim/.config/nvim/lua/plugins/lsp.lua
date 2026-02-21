@@ -7,14 +7,13 @@ return {
     },
     {
         'williamboman/mason-lspconfig.nvim',
-        dependencies = {
-            'williamboman/mason.nvim',
-            'Hoffs/omnisharp-extended-lsp.nvim',
-        },
+        dependencies = { 'williamboman/mason.nvim', 'Decodetalkers/csharpls-extended-lsp.nvim', },
         config = function()
             local servers = {
                 texlab = {},
                 omnisharp = {},
+                clangd = {},
+                ts_ls = {},
                 pyright = {},
                 rust_analyzer = {
                     autostart = false,
@@ -25,33 +24,66 @@ return {
                     },
                 },
                 lua_ls = {
-                    Lua = {
-                        workspace = { checkThirdParty = false },
-                        telemetry = { enable = false },
-                        runtime = { version = 'Lua 5.4' },
+                    settings = {
+                        Lua = {
+                            workspace = { checkThirdParty = false },
+                            telemetry = { enable = false },
+                            runtime = { version = 'Lua 5.4' },
+                        },
                     },
                 },
+                csharp_ls = {
+                    handlers = {
+                        ["textDocument/definition"] = require('csharpls_extended').handler,
+                        ["textDocument/typeDefinition"] = require('csharpls_extended').handler,
+                    },
+                },
+                hls = {
+                    -- use system lsp instead of the one installed by mason
+                    cmd = { 'haskell-language-server', '--lsp', },
+                },
+                -- gopls = {
+                -- },
             }
 
             local mason_lspconfig = require('mason-lspconfig')
+            mason_lspconfig.setup({
+                -- ensure_installed = vim.tbl_keys(servers),
+            })
 
-            mason_lspconfig.setup {
-                ensure_installed = vim.tbl_keys(servers),
-            }
+            local capabilities = require('cmp_nvim_lsp').default_capabilities(vim.lsp.protocol.make_client_capabilities())
+            for _, server in pairs(servers) do
+                server.capabilities = capabilities
+                server.on_attach = require("lsp").on_attach
+            end
 
-            -- nvim-cmp supports additional completion capabilities, so broadcast that to servers
-            local capabilities = vim.lsp.protocol.make_client_capabilities()
-            capabilities = require('cmp_nvim_lsp').default_capabilities(capabilities)
+            for server, config in pairs(servers) do
+                vim.lsp.config(server, config)
+            end
 
-            mason_lspconfig.setup_handlers {
-                function(server_name)
-                    require('lspconfig')[server_name].setup {
-                        capabilities = capabilities,
-                        on_attach = require("lsp").on_attach,
-                        settings = servers[server_name],
-                    }
-                end,
-            }
+            -- mason_lspconfig.setup_handlers {
+            --     function(server_name)
+            --         if (servers[server_name] ~= nil) then
+            --             require('lspconfig')[server_name].setup(servers[server_name])
+            --         else
+            --             print("Warning: no config for '" .. server_name .. "' LSP, skipping")
+            --         end
+            --     end,
+            -- }
+        end,
+    },
+    {
+        'mfussenegger/nvim-jdtls',
+    },
+    {
+        "folke/lazydev.nvim",
+        ft = "lua",
+        config = function()
+            require('lazydev').setup({
+                library = {
+                    { path = "~/github/fivem-lls-addon/library", words = { "Citizen" } },
+                },
+            })
         end,
     },
     {
@@ -59,16 +91,8 @@ return {
         dependencies = {
             'williamboman/mason.nvim',
             'williamboman/mason-lspconfig.nvim',
-            'Hoffs/omnisharp-extended-lsp.nvim',
 
             { 'j-hui/fidget.nvim', opts = {} },
-
-            {
-                'folke/neodev.nvim',
-                config = function()
-                    require('neodev').setup()
-                end
-            },
         },
         config = function()
             vim.keymap.set("n", "<leader>gq", vim.lsp.buf.format, { desc = "Format current buffer" })
@@ -82,31 +106,88 @@ return {
         end,
     },
     {
-        -- Autocompletion
         'hrsh7th/nvim-cmp',
-        dependencies = { 'hrsh7th/cmp-nvim-lsp', 'L3MON4D3/LuaSnip', 'saadparwaiz1/cmp_luasnip' },
+        dependencies = {
+            'hrsh7th/cmp-nvim-lsp',
+            'L3MON4D3/LuaSnip',
+            'saadparwaiz1/cmp_luasnip',
+            'onsails/lspkind.nvim',
+            'hrsh7th/cmp-buffer',
+            'hrsh7th/cmp-path',
+            'hrsh7th/cmp-cmdline',
+            'hrsh7th/cmp-calc',
+        },
         config = function()
             local cmp = require('cmp')
-            local luasnip = require('luasnip')
+
             cmp.setup({
                 snippet = {
                     expand = function(args)
-                        luasnip.lsp_expand(args.body)
+                        require('luasnip').lsp_expand(args.body)
                     end,
                 },
+                view = {
+                    entries = "custom"
+                },
+                formatting = {
+                    expandable_indicator = true,
+                    fields = { 'abbr', 'kind', 'menu' },
+                    format = require('lspkind').cmp_format({
+                        mode = "symbol_text",
+                        menu = ({
+                            buffer = "[Buffer]",
+                            nvim_lsp = "[LSP]",
+                            luasnip = "[LuaSnip]",
+                            nvim_lua = "[Lua]",
+                            calc = "[Calc]",
+                        })
+                    }),
+                },
+                window = {
+                    completion = cmp.config.window.bordered(),
+                    documentation = cmp.config.window.bordered(),
+                },
                 mapping = cmp.mapping.preset.insert({
-                        ['<C-j>'] = cmp.mapping.select_next_item(),
-                        ['<C-k>'] = cmp.mapping.select_prev_item(),
-                        ['<A-j>'] = cmp.mapping.scroll_docs(1),
-                        ['<A-k>'] = cmp.mapping.scroll_docs(-1),
-                        ['<Tab>'] = cmp.mapping.confirm {
-                        behavior = cmp.ConfirmBehavior.Replace,
+                    ['<C-j>'] = cmp.mapping.select_next_item(),
+                    ['<C-k>'] = cmp.mapping.select_prev_item(),
+                    ['<A-j>'] = cmp.mapping.scroll_docs(1),
+                    ['<A-k>'] = cmp.mapping.scroll_docs(-1),
+                    ['<Tab>'] = cmp.mapping.confirm {
+                        behavior = cmp.ConfirmBehavior.Insert,
                         select = true,
                     },
                 }),
+                sources = cmp.config.sources(
+                    {
+                        { name = 'nvim_lsp' },
+                        { name = 'luasnip' },
+                    },
+                    {
+                        { name = 'buffer' },
+                        { name = 'calc' },
+                    }
+                ),
+            })
+
+            cmp.setup.cmdline({ '/', '?' }, {
+                mapping = cmp.mapping.preset.cmdline(),
                 sources = {
-                    { name = 'nvim_lsp' },
-                    { name = 'luasnip' },
+                    { name = 'buffer' }
+                }
+            })
+
+            cmp.setup.cmdline(':', {
+                mapping = cmp.mapping.preset.cmdline(),
+                sources = cmp.config.sources(
+                    {
+                        { name = 'path' }
+                    },
+                    {
+                        { name = 'cmdline' }
+                    }
+                ),
+                matching = {
+                    disallow_symbol_nonprefix_matching = false
                 },
             })
         end,

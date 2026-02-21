@@ -6,6 +6,10 @@ function M.jk_esc()
     vim.keymap.set('i', 'jk', '<ESC>');
 end
 
+function M.null_register_prefix_on_backspace()
+    vim.keymap.set({'n', 'v'}, '<BS>', '"_');
+end
+
 function M.non_destructive_paste()
     vim.keymap.set('v', 'p', '"_dP');
 end
@@ -55,6 +59,11 @@ function M.diagnostics()
     vim.keymap.set('n', ']d', vim.diagnostic.goto_next, { desc = "Go to next diagnostic message" })
     vim.keymap.set('n', '<leader>e', vim.diagnostic.open_float, { desc = "Open floating diagnostic message" })
     vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, { desc = "Open diagnostics list" })
+end
+
+function M.quickfix()
+    vim.keymap.set('n', '<leader>qj', ":cnext<cr>", { desc = "Go to the next quickfix item" })
+    vim.keymap.set('n', '<leader>qk', ":cprev<cr>", { desc = "Go to the previous quickfix item" })
 end
 
 function M.toggles()

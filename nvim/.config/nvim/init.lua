@@ -22,6 +22,8 @@ vim.opt.listchars = 'tab:<->,trail:-,nbsp:+,multispace:-,lead:\\x20'
 -- Mappings
 local mapping = require("mappings")
 mapping.jk_esc()
+mapping.null_register_prefix_on_backspace()
+mapping.quickfix()
 mapping.non_destructive_paste()
 mapping.center_after_jump()
 mapping.scroll(2)
@@ -45,4 +47,8 @@ if not vim.loop.fs_stat(lazypath) then
     }
 end
 vim.opt.rtp:prepend(lazypath)
-require('lazy').setup("plugins")
+require('lazy').setup("plugins", {
+    change_detection = {
+        enabled = false,
+    },
+})

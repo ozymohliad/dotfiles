@@ -15,7 +15,7 @@ dir=$(pwd)
 unset SHELL
 while subdir=$(pick) || [ $? -eq 1 ]
 do
-    tmp=$(realpath "$dir/${subdir:-.}")
+    tmp=$(realpath "$dir/${subdir}")
     [ -x "$tmp" ] && dir=$tmp
 done
 echo $dir

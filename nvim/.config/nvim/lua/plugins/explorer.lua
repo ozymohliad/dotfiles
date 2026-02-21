@@ -20,6 +20,9 @@ return {
                 defaults = {
                     layout_strategy = "vertical",
                     layout_config = {
+                        vertical = {
+                            width = 0.9
+                        },
                     },
                     mappings = {
                         i = {
@@ -62,5 +65,12 @@ return {
             pcall(require('telescope').load_extension, 'fzf')
         end,
     },
+
+    {
+        'nvim-telescope/telescope-ui-select.nvim',
+        config = function()
+            pcall(require("telescope").load_extension("ui-select"))
+        end,
+    }
 
 }

@@ -7,4 +7,7 @@ return {
     },
     -- "gc" to comment visual regions/lines
     { 'numToStr/Comment.nvim', opts = {} },
+    {
+        'inkarkat/vim-camelcasemotion'
+    },
 }

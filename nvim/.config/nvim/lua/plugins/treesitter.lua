@@ -5,7 +5,7 @@ return {
         'nvim-treesitter/nvim-treesitter-refactor',
         'nvim-treesitter/playground',
         'nvim-treesitter/nvim-treesitter-context',
-        'HiPhish/nvim-ts-rainbow2',
+        'hiphish/rainbow-delimiters.nvim',
     },
     config = function()
         pcall(require('nvim-treesitter.install').update { with_sync = true })
@@ -21,6 +21,7 @@ return {
                 'vim',
                 'query',
                 'sql',
+                'go',
             },
             auto_install = false,
 
@@ -83,12 +84,31 @@ return {
                     },
                 },
             },
-            rainbow = {
-                enable = true,
-                query = 'rainbow-parens',
-                strategy = require('ts-rainbow').strategy.global,
-            }
         }
+
+        require('rainbow-delimiters.setup').setup({
+            strategy = {
+                [''] = require('rainbow-delimiters').strategy['global'],
+                vim  = require('rainbow-delimiters').strategy['local'],
+            },
+            query = {
+                [''] = 'rainbow-delimiters',
+                lua  = 'rainbow-blocks',
+            },
+            priority = {
+                [''] = 110,
+                lua  = 210,
+            },
+            highlight = {
+                'RainbowDelimiterRed',
+                'RainbowDelimiterYellow',
+                'RainbowDelimiterBlue',
+                'RainbowDelimiterOrange',
+                'RainbowDelimiterGreen',
+                'RainbowDelimiterViolet',
+                'RainbowDelimiterCyan',
+            },
+        })
 
         require('treesitter-context').setup({
             enable = true,
