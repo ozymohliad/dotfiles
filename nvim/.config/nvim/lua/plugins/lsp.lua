@@ -52,24 +52,11 @@ return {
             })
 
             local capabilities = require('cmp_nvim_lsp').default_capabilities(vim.lsp.protocol.make_client_capabilities())
-            for _, server in pairs(servers) do
-                server.capabilities = capabilities
-                server.on_attach = require("lsp").on_attach
-            end
-
             for server, config in pairs(servers) do
+                config.capabilities = capabilities
+                config.on_attach = require("lsp").on_attach
                 vim.lsp.config(server, config)
             end
-
-            -- mason_lspconfig.setup_handlers {
-            --     function(server_name)
-            --         if (servers[server_name] ~= nil) then
-            --             require('lspconfig')[server_name].setup(servers[server_name])
-            --         else
-            --             print("Warning: no config for '" .. server_name .. "' LSP, skipping")
-            --         end
-            --     end,
-            -- }
         end,
     },
     {

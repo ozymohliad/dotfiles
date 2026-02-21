@@ -4,7 +4,7 @@ local jdtls_config = '/usr/share/java/jdtls/config_linux/config.ini'
 -- local lombok_paths = vim.fn.expand("~/.gradle/caches/modules-2/files-2.1/org.projectlombok/lombok/*/*/lombok-1.18.??.jar", true, true)
 -- local lombok_paths = vim.fn.expand("~/.m2/repository/org/projectlombok/lombok/1.18.??/lombok-1.18.??.jar", true, true)
 -- local lombok_path = vim.fn.sort(lombok_paths, 'n')[#lombok_paths]
-local lombok_path = vim.fn.expand('~/.local/share/nvim/lombok-1.18.39.jar')
+local lombok_path = vim.fn.expand('~/.local/share/nvim/lombok.jar')
 -- local lombok_available = vim.fn.filereadable(lombok_path) == 1
 
 local project_root = require('jdtls.setup').find_root({ '.git', 'gradlew', 'mvnw' }) or vim.fn.fnamemodify(vim.fn.getcwd(), ":p:h")
@@ -25,7 +25,6 @@ require('jdtls').start_or_attach({
         '-Dlog.protocol=true',
         '-Dlog.level=ALL',
         '-javaagent:' .. lombok_path,
-        -- '-Xbootclasspath/a:' .. lombok_path,
         '-Xms1g',
         '--add-modules=ALL-SYSTEM',
         '--add-opens', 'java.base/java.util=ALL-UNNAMED',
@@ -38,7 +37,6 @@ require('jdtls').start_or_attach({
     settings = {
         java = {
             project = {
-                -- referencedLibraries = {vim.fn.expand('~/.gradle/caches/modules-2/files-2.1/org.jsoup/jsoup/1.18.1/cb7cd991d47b44101cbe4655dec611cdc01f8a02/jsoup-1.18.1.jar')}
             }
         }
     },
